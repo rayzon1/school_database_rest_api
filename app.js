@@ -4,6 +4,28 @@
 const express = require('express');
 const morgan = require('morgan');
 
+const Sequelize = require('sequelize');
+
+// const { models } = require('./db/models/index');
+
+// Get references to our models.
+// const { Course, User } = models;
+
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'fsjstd-restapi.db'
+});
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+    return sequelize.sync();
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
